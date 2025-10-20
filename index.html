@@ -57,16 +57,7 @@
   <script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.3/dist/panzoom.min.js"></script>
 </head>
 <body>
-  <div id="flipbook">
-    <script>
-      // Gambar berformat Slide1.png s.d. Slide29.png
-      for (let i = 1; i <= 29; i++) {
-        document.write(
-          `<div class='page'><img src="pages/Slide${i}.png" alt="Slide ${i}"></div>`
-        );
-      }
-    </script>
-  </div>
+  <div id="flipbook"></div>
 
   <div id="controls">
     <button onclick="$('#flipbook').turn('previous')">⟵ Prev</button>
@@ -77,24 +68,26 @@
   </div>
 
   <script>
-    $('#flipbook').turn({
-      width: window.innerWidth * 0.9,
-      height: window.innerHeight * 0.9,
-      autoCenter: true
-    });
+    // Cek gambar satu per satu
+    for (let i = 1; i <= 29; i++) {
+      const file = `pages/Slide${i}.png`;
+      const img = new Image();
+      img.src = file;
+      img.onload = () => {
+        $('#flipbook').append(`<div class='page'><img src="${file}" alt="Slide ${i}"></div>`);
+        $('#flipbook').turn({ width: window.innerWidth * 0.9, height: window.innerHeight * 0.9, autoCenter: true });
+      };
+      img.onerror = () => console.error('Gagal memuat:', file);
+    }
 
     const elem = document.getElementById('flipbook');
     const panzoomInstance = panzoom(elem);
 
     function zoomIn() { panzoomInstance.smoothZoom(0, 0, 1.2); }
     function zoomOut() { panzoomInstance.smoothZoom(0, 0, 0.8); }
-
     function toggleFullscreen() {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-      } else {
-        document.exitFullscreen();
-      }
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
     }
   </script>
 </body>
