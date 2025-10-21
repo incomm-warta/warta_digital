@@ -3,38 +3,50 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Majalah Digital - Flipbook</title>
+  <title>Warta Digital - Flipbook</title>
+
+  <!-- Hubungkan CSS -->
   <link rel="stylesheet" href="styles.css" />
-  <!-- Optional: Google Analytics -->
-  <!--
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXX');
-  </script>
-  -->
 </head>
+
 <body>
   <header class="topbar">
-    <h1>Majalah Digital — Edisi [September 2025]</h1>
+    <div class="left">
+      <h1>Warta Digital — Edisi September 2025</h1>
+    </div>
+
     <div class="controls">
-      <button id="prevBtn" aria-label="Previous page">⟨ Prev</button>
-      <span id="pageInfo">1 / 4</span>
-      <button id="nextBtn" aria-label="Next page">Next ⟩</button>
-      <a class="download" href="images/page1.png" id="downloadLink" download>Download</a>
+      <button id="prevBtn" title="Previous (←)">⟨ Prev</button>
+      <button id="nextBtn" title="Next (→)">Next ⟩</button>
+
+      <div class="pager">
+        <label for="jumpInput">Page</label>
+        <input id="jumpInput" type="number" min="1" />
+        <button id="jumpBtn">Go</button>
+        <span id="pageInfo">1 / 29</span>
+      </div>
+
+      <div class="zoom">
+        <button id="zoomOut" title="Zoom Out">−</button>
+        <span id="zoomVal">100%</span>
+        <button id="zoomIn" title="Zoom In">+</button>
+      </div>
+
+      <button id="fullscreenBtn" title="Fullscreen">⤢</button>
     </div>
   </header>
 
   <main class="flipbook-viewport">
-    <div id="flipbook" class="flipbook">
-      <!-- JS akan inject halaman di sini -->
+    <div id="flipbookWrapper">
+      <div id="flipbook" class="flipbook"></div>
     </div>
   </main>
 
-  <footer class="hint">Tip: gunakan tombol Prev/Next atau geser trackpad. Untuk mobile, scroll ke bawah untuk melihat satu halaman.</footer>
+  <footer class="hint">
+    Gunakan tombol atau panah keyboard untuk navigasi. (Mobile: scroll)
+  </footer>
 
+  <!-- Hubungkan Script -->
   <script src="script.js"></script>
 </body>
 </html>
