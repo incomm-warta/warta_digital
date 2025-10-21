@@ -1,94 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Warta AHM Digital</title>
-  <style>
-    body {
-      margin: 0;
-      background: #111;
-      color: white;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-    }
-    #flipbook {
-      width: 90vw;
-      height: 90vh;
-      margin: auto;
-    }
-    .page {
-      background: white;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .page img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-    #controls {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 10px;
-      z-index: 10;
-    }
-    button {
-      padding: 10px 15px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    button:hover {
-      background: #333;
-      color: white;
-    }
-  </style>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4/turn.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.3/dist/panzoom.min.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Warta Digital - Flipbook</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div id="flipbook"></div>
+  <header class="topbar">
+    <div class="left">
+      <h1>Warta Digital — Edisi</h1>
+    </div>
 
-  <div id="controls">
-    <button onclick="$('#flipbook').turn('previous')">⟵ Prev</button>
-    <button onclick="$('#flipbook').turn('next')">Next ⟶</button>
-    <button onclick="toggleFullscreen()">Fullscreen</button>
-    <button onclick="zoomIn()">Zoom +</button>
-    <button onclick="zoomOut()">Zoom −</button>
-  </div>
+    <div class="controls">
+      <button id="prevBtn" title="Previous (←)">⟨ Prev</button>
+      <button id="nextBtn" title="Next (→)">Next ⟩</button>
 
-  <script>
-    // Cek gambar satu per satu
-    for (let i = 1; i <= 29; i++) {
-      const file = `pages/Slide${i}.png`;
-      const img = new Image();
-      img.src = file;
-      img.onload = () => {
-        $('#flipbook').append(`<div class='page'><img src="${file}" alt="Slide ${i}"></div>`);
-        $('#flipbook').turn({ width: window.innerWidth * 0.9, height: window.innerHeight * 0.9, autoCenter: true });
-      };
-      img.onerror = () => console.error('Gagal memuat:', file);
-    }
+      <div class="pager">
+        <label for="jumpInput">Page</label>
+        <input id="jumpInput" type="number" min="1" />
+        <button id="jumpBtn">Go</button>
+        <span id="pageInfo">1 / 29</span>
+      </div>
 
-    const elem = document.getElementById('flipbook');
-    const panzoomInstance = panzoom(elem);
+      <div class="zoom">
+        <button id="zoomOut" title="Zoom Out">−</button>
+        <span id="zoomVal">100%</span>
+        <button id="zoomIn" title="Zoom In">+</button>
+      </div>
 
-    function zoomIn() { panzoomInstance.smoothZoom(0, 0, 1.2); }
-    function zoomOut() { panzoomInstance.smoothZoom(0, 0, 0.8); }
-    function toggleFullscreen() {
-      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
-      else document.exitFullscreen();
-    }
-  </script>
+      <button id="fullscreenBtn" title="Fullscreen">⤢</button>
+      <a id="downloadLink" class="download" download>Download</a>
+    </div>
+  </header>
+
+  <main class="flipbook-viewport">
+    <div id="flipbookWrapper">
+      <div id="flipbook" class="flipbook"></div>
+    </div>
+  </main>
+
+  <footer class="hint">Gunakan tombol, panah keyboard atau klik halaman kanan untuk flip. (Mobile: scroll)</footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
