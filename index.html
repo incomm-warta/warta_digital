@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Majalah Digital - Flipbook</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Optional: Google Analytics -->
+  <!--
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXX');
+  </script>
+  -->
+</head>
+<body>
+  <header class="topbar">
+    <h1>Majalah Digital — Edisi [Bulan Tahun]</h1>
+    <div class="controls">
+      <button id="prevBtn" aria-label="Previous page">⟨ Prev</button>
+      <span id="pageInfo">1 / 4</span>
+      <button id="nextBtn" aria-label="Next page">Next ⟩</button>
+      <a class="download" href="images/page1.png" id="downloadLink" download>Download</a>
+    </div>
+  </header>
+
+  <main class="flipbook-viewport">
+    <div id="flipbook" class="flipbook">
+      <!-- JS akan inject halaman di sini -->
+    </div>
+  </main>
+
+  <footer class="hint">Tip: gunakan tombol Prev/Next atau geser trackpad. Untuk mobile, scroll ke bawah untuk melihat satu halaman.</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
