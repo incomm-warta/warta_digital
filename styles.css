@@ -49,6 +49,7 @@ body {
   gap: 10px;
 }
 
+/* --- Pastikan area tombol zoom tampil dan rapi --- */
 .zoom {
   display: flex;
   align-items: center;
@@ -82,8 +83,6 @@ body {
   color: var(--text);
 }
 
-}
-
 button {
   background: var(--accent);
   color: white;
@@ -104,25 +103,12 @@ button:disabled {
   cursor: not-allowed;
 }
 
-.zoom,
-.pager {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
 #jumpInput {
   width: 60px;
   padding: 4px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
   text-align: center;
-}
-
-#zoomVal {
-  min-width: 45px;
-  text-align: center;
-  display: inline-block;
 }
 
 .download {
