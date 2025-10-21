@@ -72,8 +72,18 @@ function render() {
 
 // ====== KONTROL FLIP HALAMAN ======
 prevBtn.addEventListener('click', () => {
-  current = Math.max(0, current - 2);
-  render();
+  const pagesEl = document.querySelectorAll('.page');
+  const rightPage = pagesEl[1]; // halaman kanan saat ini
+  if (rightPage) {
+    rightPage.classList.add('flipping-back');
+    setTimeout(() => {
+      current = Math.max(0, current - 2);
+      render();
+    }, 700);
+  } else {
+    current = Math.max(0, current - 2);
+    render();
+  }
 });
 
 nextBtn.addEventListener('click', () => {
