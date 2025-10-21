@@ -1,6 +1,6 @@
-/* ====== STYLE: Warta Digital Flipbook (Toolbar Simplified) ====== */
+/* ====== STYLE: Warta Digital Dual Page Flipbook (Laptop 2 Halaman, Mobile Adaptif) ====== */
 
-/* --- Variabel warna & font --- */
+/* --- Variabel Warna & Font --- */
 :root {
   --accent: #0d47a1;
   --accent-hover: #1565c0;
@@ -9,6 +9,8 @@
   --border-color: #ccc;
   --paper-bg: #fff;
   --page-shadow: rgba(0,0,0,0.25);
+  --fold-shadow: rgba(0,0,0,0.35);
+  --fold-highlight: rgba(255,255,255,0.35);
 }
 
 * {
@@ -23,7 +25,7 @@ body {
   overflow-x: hidden;
 }
 
-/* --- Header / Toolbar --- */
+/* --- HEADER / TOOLBAR --- */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -51,7 +53,6 @@ body {
   flex-wrap: wrap;
 }
 
-/* --- Tombol utama --- */
 button {
   background: var(--accent);
   color: white;
@@ -73,8 +74,8 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* --- Pager (input halaman) --- */
-.pager {
+/* --- Pager & Zoom Control --- */
+.pager, .zoom {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -96,17 +97,6 @@ button:disabled {
   font-size: 14px;
   font-weight: 500;
   color: #444;
-}
-
-/* --- Zoom control --- */
-.zoom {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: #fff;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 2px 6px;
 }
 
 .zoom button {
@@ -132,7 +122,7 @@ button:disabled {
   color: var(--text);
 }
 
-/* --- Fullscreen button --- */
+/* --- Fullscreen Button --- */
 #fullscreenBtn {
   background: var(--accent);
   border-radius: 6px;
@@ -140,21 +130,21 @@ button:disabled {
   padding: 4px 10px;
 }
 
-/* --- Area tampilan flipbook --- */
+/* --- Flipbook Viewport --- */
 .flipbook-viewport {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
   min-height: calc(100vh - 100px);
+  background: var(--bg);
 }
 
 #flipbookWrapper {
   background: var(--paper-bg);
   box-shadow: 0 8px 25px var(--page-shadow);
-  width: 794px;    /* A4 width */
-  height: 1123px;  /* A4 height */
-  max-width: 95vw;
+  aspect-ratio: 1588 / 1123; /* dua halaman A4 berdampingan */
+  width: min(95vw, 1588px);
   max-height: 90vh;
   overflow: hidden;
   border-radius: 10px;
@@ -167,9 +157,10 @@ button:disabled {
   height: 100%;
   position: relative;
   perspective: 2000px;
+  transform-style: preserve-3d;
 }
 
-/* --- Halaman kiri dan kanan --- */
+/* --- Halaman --- */
 .page {
   width: 50%;
   height: 100%;
@@ -178,7 +169,6 @@ button:disabled {
   background: var(--paper-bg);
   overflow: hidden;
   border: 1px solid var(--border-color);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
   transform-style: preserve-3d;
 }
 
@@ -190,17 +180,16 @@ button:disabled {
 .page.right {
   right: 0;
   transform-origin: left center;
-  transition: transform 0.7s ease, box-shadow 0.7s ease;
-  box-shadow: inset 0 0 0 rgba(0,0,0,0);
+  transition: transform 0.8s ease, box-shadow 0.8s ease;
   z-index: 2;
 }
 
+/* --- Efek Flip (lipatan kertas) --- */
 .page.right.flipping {
   transform: rotateY(-180deg);
-  box-shadow: -20px 0 30px rgba(0,0,0,0.3);
+  box-shadow: -25px 0 40px var(--page-shadow);
 }
 
-/* --- Efek cahaya saat flip --- */
 .page.right.flipping::before {
   content: "";
   position: absolute;
@@ -208,32 +197,47 @@ button:disabled {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-  animation: lightSweep 0.6s ease;
+  background: linear-gradient(90deg,
+    var(--fold-shadow) 0%,
+    var(--fold-highlight) 40%,
+    rgba(255,255,255,0) 70%);
+  animation: foldLight 0.7s ease;
 }
 
-@keyframes lightSweep {
-  from { transform: translateX(-100%); opacity: 0.3; }
-  to { transform: translateX(100%); opacity: 0; }
+@keyframes foldLight {
+  from { opacity: 0.5; transform: translateX(-50%); }
+  to { opacity: 0; transform: translateX(100%); }
 }
 
-/* --- Gambar halaman --- */
+/* --- Garis Lipatan Tengah (bayangan halus) --- */
+.flipbook::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.25), transparent);
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* --- Gambar Halaman --- */
 .page img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  display: block;
   backface-visibility: hidden;
+  display: block;
 }
 
-/* --- Fullscreen mode --- */
+/* --- Fullscreen --- */
 .fullscreen {
   width: 100vw !important;
   height: 100vh !important;
   max-width: none;
   max-height: none;
   border-radius: 0;
-  background: var(--paper-bg);
 }
 
 /* --- Footer --- */
@@ -244,33 +248,47 @@ button:disabled {
   padding: 8px;
 }
 
-/* --- Responsiveness --- */
-@media (max-width: 900px) {
-  .controls {
-    flex-direction: column;
-    gap: 6px;
-    align-items: flex-start;
+/* --- RESPONSIVE MODE --- */
+
+/* Mobile portrait → 1 halaman */
+@media (max-width: 900px) and (orientation: portrait) {
+  #flipbookWrapper {
+    aspect-ratio: 794 / 1123;
+    width: min(95vw, 794px);
+    height: auto;
   }
 
-  #flipbookWrapper {
+  .flipbook::after { display: none; }
+
+  .page {
     width: 100%;
-    height: auto;
+    position: relative;
+    border: none;
     box-shadow: none;
   }
 
-  .flipbook {
-    display: block;
+  .page.right {
+    display: none;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Mobile landscape → tetap 2 halaman */
+@media (max-width: 900px) and (orientation: landscape) {
+  #flipbookWrapper {
+    aspect-ratio: 1588 / 1123;
+    width: 95vw;
   }
 
   .page {
-    position: relative;
-    width: 100%;
-    height: auto;
-    box-shadow: none;
     border: none;
   }
 
-  .page img {
-    height: auto;
+  .flipbook::after {
+    opacity: 0.4;
   }
 }
