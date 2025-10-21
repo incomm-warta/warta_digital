@@ -130,6 +130,34 @@ button:disabled {
   padding: 4px 10px;
 }
 
+/* --- Tombol navigasi saat fullscreen --- */
+.fullscreen-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  pointer-events: none; /* biar area di luar tombol tetap bisa diklik halaman */
+}
+
+.fullscreen-nav button {
+  pointer-events: all;
+  background: rgba(13, 71, 161, 0.8);
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  padding: 12px 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.fullscreen-nav button:hover {
+  background: rgba(21, 101, 192, 0.95);
+}
+
 /* --- Flipbook Viewport --- */
 .flipbook-viewport {
   display: flex;
