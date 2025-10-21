@@ -190,6 +190,13 @@ button:disabled {
   box-shadow: -25px 0 40px var(--page-shadow);
 }
 
+/* --- Animasi balik halaman kiri ke kanan (Prev) --- */
+.page.right.flipping-back {
+  transform-origin: right center;
+  transform: rotateY(180deg);
+  box-shadow: 25px 0 40px rgba(0,0,0,0.3);
+}
+
 .page.right.flipping::before {
   content: "";
   position: absolute;
